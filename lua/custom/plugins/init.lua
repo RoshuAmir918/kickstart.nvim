@@ -1,13 +1,9 @@
--- You can add your own plugins here or in other files in this directory!
---  I promise not to create any merge conflicts in this directory :)
+-- Intentionally empty.
 --
--- See the kickstart.nvim README for more information
-
--- Iterate over all Lua files in the plugins directory and load them
-local plugins_dir = vim.fs.joinpath(vim.fn.stdpath 'config', 'lua', 'custom', 'plugins')
-for file_name, type in vim.fs.dir(plugins_dir, { follow = true }) do
-  if (type == 'file' or type == 'link') and file_name:match '%.lua$' and file_name ~= 'init.lua' then
-    local module = file_name:gsub('%.lua$', '')
-    require('custom.plugins.' .. module)
-  end
-end
+-- Kickstart's version of this file auto-loaded every sibling `.lua` file by
+-- iterating the directory. That is unsafe with `vim.pack`, whose `add` is
+-- imperative and order-dependent -- `vim.fs.dir` gives no ordering guarantee,
+-- so build hooks could register after the installs they are meant to handle.
+--
+-- Load order is explicit in `lua/custom/init.lua` instead. Register new plugin
+-- modules there.
